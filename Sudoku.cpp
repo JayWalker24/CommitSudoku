@@ -1,4 +1,4 @@
-﻿#include<opencv2/opencv.hpp>
+#include<opencv2/opencv.hpp>
 #include<iostream>
 using namespace std;
 using namespace cv;
@@ -76,50 +76,21 @@ int main(int argc, char** argv)
 		cin.get(); 
 		return -1;
 	}
-
+	
+	
+	//calls invert Image Twice to binarize the RGB values of anhy pixels that
+	//are not black or white
 	invertImage(img);
 	invertImage(img);
+	
+	//removes all horizontal and verticle lines from image
 	Mat newImage = isline(img);
 
 
-
-				
-	//creates new Mat object and makes in gray
-	//Mat grayTest;
-	//cvtColor(img, grayTest, CV_BGR2GRAY);
-
+	//stores image in any format
 	imwrite("TestImage.jpg", newImage);
 
 
-	/*
-
-	namedWindow("newOne", CV_WINDOW_AUTOSIZE);
-	imshow("newOne", newImage);
-	waitKey(0);
-
-	int count = 0;
-	for (int i = 0; i < img.rows; i++) {
-		for (int j = 0; j < img.cols; j++) {
-			int rgbSum = int(img.at<cv::Vec3b>(i, j)[0]) + int(img.at<cv::Vec3b>(i, j)[1]) + int(img.at<cv::Vec3b>(i, j)[2]);
-
-		}
-	}
-
-
-	namedWindow(picName, CV_WINDOW_AUTOSIZE);
-	namedWindow("Gray image", CV_WINDOW_AUTOSIZE);
-
-	imshow(picName, img);
-	imshow("Gray image", grayTest);
-
-
-	String windowName = "NewWindow"; //Name of the window
-	namedWindow(windowName); // Create a window
-	imshow(windowName, image); // Show our image inside the created window.
-	waitKey(0); // Wait for any keystroke in the window
-	destroyWindow(windowName); //destroy the created window
-	*/
-	//waitKey(0);
 
 	return 0;
 }
