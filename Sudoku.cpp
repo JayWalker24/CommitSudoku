@@ -65,6 +65,152 @@ Mat isline(const Mat img) {
 }
 
 
+void imageCroptop(const Mat& img, vector<vector<Mat>>& imageVec) {
+
+	//parameters are the original picture with lines removed
+	//and an empty 2D vector of images
+
+
+	//there will be a total of 81 cells which contain eitehr
+	//a blank or a single digit
+
+	int RowCellSize = img.rows/9;
+	int ColCellSize = img.cols/9; 
+	int x1 = 0, x2 = RowCellSize, y1 = 0, y2 = ColCellSize;
+
+	vector<Mat> newVec1;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec1.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec2;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec3;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec4;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec5;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec6;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec7;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec8;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	x1 = 0;
+	y1 += ColCellSize;
+	vector<Mat> newVec9;
+	for (int i = 0; i < 9; i++) {
+		Rect crop(x1, y1, x2, y2);
+		Mat croppedImage = img(crop);
+		newVec2.push_back(croppedImage);
+		x1 += RowCellSize;
+	}
+
+	imageVec.push_back(newVec1);
+	imageVec.push_back(newVec2);
+	imageVec.push_back(newVec3);
+	imageVec.push_back(newVec4);
+	imageVec.push_back(newVec5);
+	imageVec.push_back(newVec6);
+	imageVec.push_back(newVec7);
+	imageVec.push_back(newVec8);
+	imageVec.push_back(newVec9);
+
+
+
+}
+
+
+void vectorPrint(vector<vector<Mat>>& imageVec) {
+	cout << imageVec.size() << endl;
+	if (imageVec.size()) {
+		cout << imageVec[0].size() << endl;
+	}
+
+	for (vector<Mat> Row : imageVec) {
+		for (Mat col : Row) {
+			namedWindow("uhh", WINDOW_AUTOSIZE);
+			imshow("Display window", col);
+			waitKey(0);
+		}
+	}
+
+
+	/*
+	for (int i = 0; i < imageVec.size(); i++) {
+		for (int j = 0; j < imageVec[0].size(); j++) {
+			namedWindow("uhh", WINDOW_AUTOSIZE);
+			imshow("Display window", imageVec[i][j]);
+			waitKey(0);
+		}
+	}
+	
+	
+	
+	*/
+	
+}
+
 int main(int argc, char** argv)
 {
 	string picName = "in.png";
@@ -76,20 +222,24 @@ int main(int argc, char** argv)
 		cin.get(); 
 		return -1;
 	}
-	
-	
-	//calls invert Image Twice to binarize the RGB values of anhy pixels that
-	//are not black or white
+
 	invertImage(img);
 	invertImage(img);
-	
-	//removes all horizontal and verticle lines from image
 	Mat newImage = isline(img);
 
+	/*
+	OCR can't read entire pages of scattered numbers without fliiping out
+	so the next best option is to spilt each grid into it's own image
+	and read it using the -psm flag and store into the 2D vector.
 
-	//stores image in any format
+	First start by parse the image into a 2D vector of images.
+	Might not be legal but.
+	*/
+
+	vector<vector<Mat>> imageVector;
+	imageCroptop(newImage, imageVector);
+	vectorPrint(imageVector);
 	imwrite("TestImage.jpg", newImage);
-
 
 
 	return 0;
