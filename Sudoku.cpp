@@ -1,5 +1,6 @@
 #include<opencv2/opencv.hpp>
 #include<iostream>
+
 using namespace std;
 using namespace cv;
 
@@ -175,9 +176,6 @@ void imageCroptop(const Mat& img, vector<vector<Mat>>& imageVec) {
 	imageVec.push_back(newVec7);
 	imageVec.push_back(newVec8);
 	imageVec.push_back(newVec9);
-
-
-
 }
 
 
@@ -189,9 +187,9 @@ void vectorPrint(vector<vector<Mat>>& imageVec) {
 
 	for (vector<Mat> Row : imageVec) {
 		for (Mat col : Row) {
-			namedWindow("uhh", WINDOW_AUTOSIZE);
-			imshow("Display window", col);
-			waitKey(0);
+			imwrite("TestImage.jpg", col);
+			//imshow("Display window", col);
+			//waitKey(0);
 		}
 	}
 
@@ -239,8 +237,13 @@ int main(int argc, char** argv)
 	vector<vector<Mat>> imageVector;
 	imageCroptop(newImage, imageVector);
 	vectorPrint(imageVector);
-	imwrite("TestImage.jpg", newImage);
+	//imwrite("TestImage.jpg", newImage);
 
+	//the image has been cropped into 81 different images
+	//now use the TesOCR library to read each image into a 2D vector
+	//and from there make an algroithm that solves the vector
+	//OCR can only read images so the Mat files must be turned
+	//from Mat -> jgg/tiff -> read and stored -> deleted
 
 	return 0;
 }
